@@ -1,0 +1,52 @@
+﻿
+
+	<div ng-controller="ProductsCommonController as products">
+		<div class="col-md-4">
+			<div class="well">
+				<h4  class="text-uppercase">Описание</h4>
+				<p>В каталоге выводится список товаров.</p>
+				<p>Для того, чтобы отредактировать выполнить переход.</p>
+
+
+			</div>
+
+		</div>
+		<div class="col-md-8 panel-primary" >
+
+			<div class="panel-heading">
+				<div class="row">
+					<h3><div class="col-md-6">
+						Количество товаров: <span class="label label-info">{{(products.items|filter: {status:1}|searchForName:searchString).length}} из 
+						{{(products.items|filter: {status:1}).length}}
+					</span></div>
+					<div  class="col-md-6">
+						<div  class="col-md-4">
+						</div>
+						<form class="col-md-8" role="search">
+							<div class="input-group">
+
+								<input type="text" class="form-control" placeholder="Search" ng-model="searchString"  ng-change="filterContents()"><span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+							</div>
+						</form>
+					</div></h3>
+				</div>
+			</div>
+			<div class="panel-body">
+
+				<div class="row">
+
+					<div class="col-md-6 text-center" ng-repeat="item in products.items|filter: {status:1}|searchForName:searchString " >
+						<li class="WELL">
+						
+							<img ng-src="img/{{item.img}}" class="img-rounded"><br>
+							<H3 class="text-uppercase">{{item.name}}</H3>
+							<br>
+							{{item.description}}
+							<br><strong>Цена:</strong>  {{item.price|currency}}
+						</li>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

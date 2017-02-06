@@ -1,0 +1,26 @@
+body {
+    padding: 10px
+}
+.content {
+    margin-top: 60px;
+}
+nav {
+    height: 18px;
+}
+.fa-large {
+    font-size:80pt;
+}
+.msg {
+    padding-top:20px;
+}
+
+li {list-style:none;}
+body  {
+    padding:10px
+}
+
+.jumbotron 	{
+    margin-top:20px;
+    width:100%;
+}
+

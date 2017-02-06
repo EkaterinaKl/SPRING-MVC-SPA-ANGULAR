@@ -1,0 +1,95 @@
+<style>
+    .active-chevron {
+        color: #337ab7;
+    }
+
+    .not-active-chevron {
+        color: grey;
+    }
+
+    body {
+        padding: 10px
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="well">
+            <form name="productForm" novalidate ng-submit="$ctrl.saveProduct(item,productForm.$valid,productForm)">
+                <h3>{{["Добавление","Редактирование"][($ctrl.item.id>0)+0]}} товаров</h3>
+                <div class="form-group row">
+                    <label>Название</label>
+
+                    <input type="text" class="form-control" name="name" required ng-model="$ctrl.item.name"
+                           aria-describedby="basic-addon1">
+                    <span class="label label-danger" ng-if="productForm.name.$invalid && productForm.name.$dirty"> {{$ctrl.getError(productForm.name.$error)}} </span>
+
+                </div>
+                <div class="form-group row">
+                    <label>Описание</label>
+                    <textarea class="form-control" name="description" ng-model="$ctrl.item.description" required
+                              aria-describedby="basic-addon1"></textarea>
+                    <span class="label label-danger"
+                          ng-if="productForm.description.$invalid && productForm.description.$dirty"> {{$ctrl.getError(productForm.description.$error)}} </span>
+
+                </div>
+
+                <div class="form-group row">
+                    <label>Цена</label>
+                    <input type="text" class="form-control" name="price" ng-pattern="/^\d+\.{0,1}\d*$/"
+                           ng-model="$ctrl.item.price" required aria-describedby="basic-addon1">
+                    <span class="label label-danger" ng-if="productForm.price.$invalid && productForm.price.$dirty">{{$ctrl.getError(productForm.price.$error)}} </span>
+
+                </div>
+                <input type="hidden" ng-model="$ctrl.item.status">
+                <input type="submit" class="btn btn-primary btn-block"
+                       value='{{["Добавить","Сохранить"][($ctrl.item.id>0)+0]}}'>
+                <input type="reset" class="btn btn-primary btn-block" ng-click="$ctrl.cleanForm(productForm)"
+                       value="Очистить">
+
+            </form>
+        </div>
+
+    </div>
+    <div class="col-md-8 panel-primary">
+
+        <div class="panel-heading">
+            <h3> Отсуствует на складе: <span
+                    class="label label-info"> {{($ctrl.items|filter: {status:0}).length}}</span>&nbsp;наимен. товара
+            </h3>
+        </div>
+        <div class="panel-body">
+
+            <table class="table" ng-cloak>
+                <tr>
+                    <th>№ п.п.</th>
+                    <th>Название <a href="" ng-click="$ctrl.sort(true)"> <i class="fa fa-chevron-up"
+                                                                            ng-class="{'active-chevron':reverse, 'not-active-chevron':!reverse}"> </i></a><a
+                            href="" ng-click="$ctrl.sort(false)"> <i class="fa fa-chevron-down"
+                                                                     ng-class="{'active-chevron':!reverse, 'not-active-chevron':reverse}"> </i></a>
+                    </th>
+
+                    <th>Описание товара</th>
+                    <th>Цена</th>
+                    <th>В наличии</th>
+                    <th colspan="2">Редактировать</th>
+                </tr>
+                <tr ng-repeat="item in filtered=($ctrl.items|orderBy:sortField:reverse)">
+
+                    <td>{{$index+1}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.price|currency}}</td>
+                    <td>
+                        <!-- $ctrl.saveProduct(item,true) -->
+                        <!-- BUG --->
+                        <input type="checkbox" on-change="javascript:alert('aaa');" ng-model="item.status"
+                               ng-true-value="1" ng-false-value="0">
+                    </td>
+                    <td><a href="" ng-click="$ctrl.updateForm(item)"><i class="fa fa-pencil"></i></a></td>
+                    <td><a href="" ng-click="$ctrl.removeProduct(item)"><i class="fa fa-remove"></i></a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
